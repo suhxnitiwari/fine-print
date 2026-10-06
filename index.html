@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Fine Print</title>
+    <meta name="description" content="Paste the ingredients off any skincare or makeup product. Find out if it's really fragrance-free, whether the hero ingredient is there in an amount that works, what base your foundation is, and what in your routine shouldn't be layered.">
+    <meta name="theme-color" content="#FBF7F0">
+    <meta property="og:title" content="Fine Print">
+    <meta property="og:description" content="Paste the ingredients. Find out what's actually in it.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232B1D14'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' text-anchor='middle' fill='%23E9C9C4'%3Ef%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #FBF7F0;      /* ivory */
+            --card: #FFFDF9;
+            --ink: #2B1D14;        /* walnut */
+            --soft: #6F5F54;
+            --faint: #A39488;
+            --hair: #E6DCCF;
+            --brass: #A88A5A;      /* antique brass hairlines */
+            --rose: #B97979;       /* dusty rose */
+            --blush: #F3E3DF;
+            --yes: #3F5A3C;        /* forest */
+            --yes-bg: #E6ECE1;
+            --no: #7A2E2E;         /* oxblood */
+            --no-bg: #F3E1DD;
+            --display: "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
+            --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+            --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        :focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+        button, input, textarea { font-family: inherit; color: inherit; }
+
+        .page { max-width: 1280px; margin: 0 auto; padding: max(22px, env(safe-area-inset-top)) max(36px, env(safe-area-inset-right)) 40px max(36px, env(safe-area-inset-left)); }
+
+        header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; padding-bottom: 18px; border-bottom: 1px solid var(--ink); position: relative; }
+        header::after { content: ""; position: absolute; left: 0; right: 0; bottom: -5px; border-bottom: 1px solid var(--ink); }
+        .kicker { margin: 0 0 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); }
+        h1 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(44px, 5.4vw, 76px); line-height: 0.9; letter-spacing: -0.02em; }
+        h1 em { color: var(--rose); font-weight: 400; }
+        .tagline { margin: 12px 0 0; font-family: var(--mono); font-size: 14px; color: var(--soft); }
+        nav { display: flex; border: 1px solid var(--ink); }
+        nav button, nav a { height: 38px; padding: 0 18px; display: flex; align-items: center; border: 0; background: var(--card); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; cursor: pointer; white-space: nowrap; }
+        nav > * + * { border-left: 1px solid var(--ink) !important; }
+        nav button:hover, nav a:hover { background: var(--blush); }
+        nav button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+
+        main { padding-top: 30px; }
+        [hidden] { display: none !important; }
+
+        /* the decoder: labels on the left, answers on the right */
+        .decoder { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: start; }
+        .inputs { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; display: grid; gap: 14px; padding-right: 4px; }
+        .label-card { background: var(--card); border: 1px solid var(--hair); padding: 14px 16px 12px; }
+        .label-top { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+        .label-top input[type=text] { flex: 1; min-width: 0; border: 0; border-bottom: 1px solid var(--hair); background: none; padding: 4px 0; font-family: var(--display); font-size: 20px; }
+        .label-top input[type=text]:focus { outline: none; border-bottom-color: var(--rose); }
+        .remove { border: 0; background: none; color: var(--faint); font-size: 12px; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; }
+        .remove:hover { color: var(--no); }
+        textarea { width: 100%; min-height: 128px; resize: vertical; border: 1px solid var(--hair); background: var(--paper); padding: 10px 12px; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; }
+        textarea:focus { outline: none; border-color: var(--rose); }
+        .check { display: inline-flex; gap: 8px; align-items: center; margin-top: 8px; font-size: 12px; color: var(--soft); cursor: pointer; }
+        .check input { accent-color: var(--ink); }
+        .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .btn { height: 44px; padding: 0 22px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+        .btn:hover:not(:disabled) { background: #46322A; }
+        .btn:disabled { opacity: 0.55; cursor: progress; }
+        .btn.ghost { background: none; color: var(--ink); }
+        .btn.ghost:hover { background: var(--blush); }
+        .samples { font-size: 12px; color: var(--soft); line-height: 2; }
+        .samples b { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin-right: 6px; }
+        .samples button { border: 0; border-bottom: 1px solid var(--hair); background: none; padding: 0 1px; margin-right: 10px; font-size: 12.5px; color: var(--ink); cursor: pointer; }
+        .samples button:hover { border-bottom-color: var(--rose); color: var(--rose); }
+        .status { font-family: var(--mono); font-size: 12px; color: var(--soft); }
+
+        /* answers */
+        .results { display: grid; gap: 44px; min-width: 0; }
+        .placeholder { border: 1px dashed var(--hair); padding: 40px 28px; text-align: center; font-family: var(--mono); font-size: 13px; color: var(--soft); }
+        .together { border: 1px solid var(--ink); background: var(--card); padding: 20px 22px; }
+        .eyebrow { margin: 0 0 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--brass); }
+        h2 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 34px; line-height: 1.05; }
+        h2 small { display: block; margin-top: 6px; font-family: var(--mono); font-size: 12px; color: var(--soft); font-weight: 400; letter-spacing: 0; }
+        h3 { margin: 0 0 12px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+        .clash { padding: 14px 0; border-top: 1px solid var(--hair); }
+        .clash:first-of-type { border-top: 0; padding-top: 6px; }
+        .clash strong { font-family: var(--display); font-size: 19px; font-weight: 500; }
+        .clash p { margin: 6px 0 0; font-size: 14px; line-height: 1.5; }
+        .clash .instead { color: var(--rose); font-weight: 600; }
+        .all-clear { margin: 8px 0 0; font-family: var(--display); font-size: 22px; color: var(--yes); }
+
+        .verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); margin: 18px 0 26px; }
+        .tile { background: var(--card); padding: 16px 18px 18px; }
+        .tile .q { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--soft); }
+        .tile .a { margin-top: 8px; font-family: var(--display); font-size: 34px; line-height: 1; }
+        .tile .a.yes { color: var(--yes); }
+        .tile .a.no { color: var(--no); }
+        .tile .a.small { font-size: 24px; }
+        .tile p { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--soft); }
+        .culprits { margin: 8px 0 0; padding: 0; list-style: none; font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--no); }
+
+        .heroes { display: grid; gap: 10px; margin-bottom: 28px; }
+        .hero { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; }
+        .mark { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 700; }
+        .mark.ok { background: var(--yes-bg); color: var(--yes); }
+        .mark.bad { background: var(--no-bg); color: var(--no); }
+        .hero b { font-family: var(--display); font-size: 18px; font-weight: 500; }
+        .hero p { margin: 2px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--soft); }
+
+        /* the label itself, with the 1% line drawn on it */
+        .label { border-top: 1px solid var(--ink); }
+        .ing { display: grid; grid-template-columns: 34px minmax(0, 1.25fr) minmax(70px, 1fr) 52px; gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--hair); font-size: 13.5px; }
+        .ing .pos { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+        .ing .nm { min-width: 0; }
+        .ing .nm span { display: block; overflow-wrap: anywhere; }
+        .ing .jobs { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--faint); margin-top: 1px; }
+        .ing .bar { height: 6px; background: var(--hair); position: relative; }
+        .ing .bar:empty { background: none; }
+        .ing .bar i { position: absolute; inset: 0 auto 0 0; background: var(--brass); }
+        .ing .cap { font-family: var(--mono); font-size: 11.5px; text-align: right; color: var(--soft); }
+        .ing.below { color: var(--soft); }
+        .ing.below .bar i { background: var(--faint); }
+        .ing.hero-ok .nm span::after, .ing.hero-bad .nm span::after, .ing.scent .nm span::after, .ing.guess .nm span::after { margin-left: 8px; padding: 1px 6px; font-family: var(--sans); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; vertical-align: 1px; }
+        .ing.hero-ok .nm span::after { content: "hero"; background: var(--yes-bg); color: var(--yes); }
+        .ing.hero-bad .nm span::after { content: "hero, too little"; background: var(--no-bg); color: var(--no); }
+        .ing.scent .nm span::after { content: "scent"; background: var(--blush); color: var(--no); }
+        .ing.guess .nm span::after { content: "typo?"; background: var(--hair); color: var(--soft); }
+        .ing.unknown .nm span { color: var(--faint); font-style: italic; }
+        .line-rule { display: flex; align-items: center; gap: 12px; margin: 6px 0; font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rose); }
+        .line-rule::before, .line-rule::after { content: ""; flex: 1; border-top: 2px solid var(--rose); }
+        .may { margin-top: 14px; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--soft); }
+        .note { margin: 10px 0 0; font-size: 12.5px; color: var(--soft); line-height: 1.5; }
+
+        .base { margin-top: 28px; background: var(--card); border: 1px solid var(--hair); padding: 18px 20px; }
+        .base .kind { font-family: var(--display); font-size: 30px; text-transform: capitalize; }
+        .base .kind small { display: block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--soft); text-transform: none; }
+        .base p { margin: 8px 0 0; font-size: 14px; line-height: 1.5; }
+        .base .heat { color: var(--no); }
+        .base ol { margin: 12px 0 0; padding: 0; list-style: none; font-family: var(--mono); font-size: 12px; color: var(--soft); line-height: 1.7; }
+
+        /* How it works */
+        .about { max-width: 760px; }
+        .about h2 { font-size: 40px; margin-bottom: 18px; }
+        .about section { padding: 22px 0; border-top: 1px solid var(--hair); }
+        .about h3 { color: var(--brass); }
+        .about p, .about li { font-size: 15.5px; line-height: 1.65; }
+        .about p { margin: 0 0 10px; }
+        .about code { font-family: var(--mono); font-size: 13px; background: var(--blush); padding: 1px 5px; }
+        .about table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 8px 0 4px; }
+        .about th, .about td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+        .about th { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--soft); }
+        .formula { font-family: var(--display); font-size: 26px; font-style: italic; color: var(--rose); margin: 6px 0 12px; }
+
+        footer { margin-top: 48px; padding-top: 14px; border-top: 1px solid var(--hair); font-size: 12px; color: var(--soft); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+        @media (max-width: 900px) {
+            .page { padding-left: 16px; padding-right: 16px; }
+            header { grid-template-columns: 1fr; gap: 16px; }
+            nav { justify-self: start; }
+            .decoder { grid-template-columns: 1fr; gap: 32px; }
+            .inputs { position: static; max-height: none; overflow: visible; }
+            .ing { grid-template-columns: 28px minmax(0, 1fr) 46px; }
+            .ing .bar { display: none; }
+            h2 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <div>
+            <p class="kicker">The ingredient decoder</p>
+            <h1>Fine <em>Print</em></h1>
+            <p class="tagline">Paste the ingredients. I'll tell you what's actually in it.</p>
+        </div>
+        <nav role="tablist">
+            <button role="tab" aria-selected="true" data-tab="decode">Decode</button>
+            <button role="tab" aria-selected="false" data-tab="how">How it works</button>
+            <a href="https://github.com/suhxnitiwari/fine-print" target="_blank" rel="noopener">Code</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="decode" class="decoder">
+            <div class="inputs">
+                <div id="labels"></div>
+                <div class="row">
+                    <button class="btn" id="go" disabled>Decode</button>
+                    <button class="btn ghost" id="add">+ Add a product</button>
+                </div>
+                <div class="samples" id="samples"><b>Try one</b></div>
+                <div class="status" id="status" role="status">Python is starting in your browser…</div>
+            </div>
+            <div class="results" id="results" aria-live="polite">
+                <div class="placeholder">Paste an ingredient list, or try one of the examples.<br>Add a second product to check your routine.</div>
+            </div>
+        </div>
+
+        <article id="how" class="about" hidden>
+            <h2>How it works</h2>
+            <section>
+                <h3>The 1% line</h3>
+                <p>Ingredients above 1% have to be listed from most to least. That means the ingredient at position <i>n</i> can't be more than 100 ÷ <i>n</i> percent, because the ones before it are at least as big and together they can't pass 100.</p>
+                <p class="formula">at most = 100 ÷ position</p>
+                <p>Below 1%, brands can list ingredients in any order. Some ingredients are almost never used above 1%: preservatives like phenoxyethanol, thickeners like xanthan gum, EDTA, fragrance. The first one on the list draws the line, and everything from there down is capped at 1%. Each hero ingredient's cap is then compared with the amount studies use. Niacinamide at 1% or less is not doing what 5% does. Retinol and hyaluronic acid are different: they work below 1%, so they sit low on a list and that's fine.</p>
+            </section>
+            <section>
+                <h3>The data</h3>
+                <p>Every ingredient in the EU's CosIng database, 33,639 of them, downloaded from the search API behind CosIng's own site. The API stops at 10,000 results per query, and its range filters don't work on the ID field because the IDs are stored as text. So the download asks for IDs in explicit batches of 5,000, pages through each one, and checks the total against the API's own count.</p>
+            </section>
+            <section>
+                <h3>Reading a messy label</h3>
+                <p>A comma ends a name, except in chemistry (<code>1,2-Hexanediol</code>) and inside brackets. One ingredient can be printed three ways at once (<code>Aqua/Water/Eau</code>, <code>Parfum (Fragrance)</code>). Footnotes like <code>*Organic</code> are dropped, and the "may contain [+/-]" shade colorants are kept apart because they sit outside the order.</p>
+                <p>Each name is matched in three passes: everyday names (<code>Water</code>, <code>Vitamin C</code>), then exact INCI names, then typos. For typos, a trigram index narrows 33,000 names to 40 candidates and Damerau-Levenshtein edit distance picks the closest, so <code>Glycrein</code> reads as Glycerin. Anything further than about one typo per eight letters stays unknown rather than being guessed.</p>
+            </section>
+            <section>
+                <h3>Fragrance-free?</h3>
+                <p>Three things give a scent away: <code>Parfum</code> or <code>Fragrance</code>, essential oils, and the 26 fragrance allergens EU law makes brands name (linalool, limonene, citronellol…). A "fragrance-free" product with lavender oil and linalool on it is not fragrance-free. Benzyl alcohol is on the allergen list but is usually the preservative, so on its own it doesn't count.</p>
+            </section>
+            <section>
+                <h3>What base is this foundation?</h3>
+                <p>The base is the part that touches your skin, not the biggest ingredient. Most liquid foundations are water-in-silicone and still list water first, at 40–60% of the bottle. So the decoder reads the top eight ingredients and the emulsifier, and checks eight rules in order:</p>
+                <table>
+                    <tr><th>Rule</th><th>What it looks for</th><th>Base</th></tr>
+                    <tr><td>1</td><td>No water anywhere</td><td>Waterless</td></tr>
+                    <tr><td>2</td><td>Water near the top, a silicone in the top four, a silicone emulsifier</td><td>Silicone</td></tr>
+                    <tr><td>3</td><td>A silicone before the water</td><td>Silicone</td></tr>
+                    <tr><td>4</td><td>Oils or evaporating hydrocarbons up top, a water-in-oil emulsifier, no silicone</td><td>Oil</td></tr>
+                    <tr><td>5</td><td>Silicones and oils sharing the top five</td><td>Silicone + oil</td></tr>
+                    <tr><td>6</td><td>Water first, nothing silicone or oily up top, water-phase thickeners</td><td>Water</td></tr>
+                    <tr><td>7</td><td>Water first, silicones in it, thickened like a gel</td><td>Water (a guess)</td></tr>
+                    <tr><td>8</td><td>Nothing fits</td><td>Unknown, with what it saw</td></tr>
+                </table>
+                <p>The rules come from my research on foundation chemistry and on whether oil-based products belong in hot, humid places like Austin in August: <a href="https://github.com/suhxnitiwari/fine-print/blob/main/reports/Foundation%20bases%20and%20hot%20climates.md" target="_blank" rel="noopener">read the report</a>.</p>
+            </section>
+            <section>
+                <h3>Can I use these together?</h3>
+                <p>The clashes live in one table as data: retinoids with AHAs or BHAs, retinoids or vitamin C with benzoyl peroxide, copper peptides with vitamin C or acids. A clash only counts when the active is there in an amount that works, so lactic acid at the bottom of a list, adjusting the pH, isn't treated as an exfoliant. Clashes inside one product don't count: the chemist already made those work.</p>
+            </section>
+            <section>
+                <h3>Built with</h3>
+                <p>Python on the standard library, run in your browser by Pyodide (WebAssembly), so the website and the command line share one engine. Nothing you paste leaves your device. 38 pytest cases cover the parser, the matching, every fragrance verdict, the caps, the clashes and each foundation base.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <span>Ingredient data: European Commission, CosIng. Working amounts are rough ranges from published studies. Not medical advice.</span>
+        <span>Built by <a href="https://suhanitiwari.com">Suhani Tiwari</a></span>
+    </footer>
+</div>
+<script src="web/app.js"></script>
+</body>
+</html>
