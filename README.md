@@ -2,6 +2,8 @@
 
 *Paste the ingredients. Find out what's actually in it.*
 
+**Live:** https://suhxnitiwari.github.io/fine-print/ (the Python runs right in your browser)
+
 ## Ownership
 
 © 2026 Suhani Tiwari. **All rights reserved.** This is my original work. The code is public so you can see how I build, not so you can reuse it: copying, reusing or republishing any part of it, including for a portfolio or a class assignment, is not permitted without my written permission. See [LICENSE](LICENSE).
